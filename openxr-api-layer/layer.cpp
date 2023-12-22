@@ -166,6 +166,11 @@ namespace openxr_api_layer {
                             "Upstream layer/runtime reported supportsEyeGazeInteraction, {} layer will be bypassed\n",
                             LayerName));
                     } else if (utilities::RegGetDword(
+                                   HKEY_LOCAL_MACHINE, "SOFTWARE\\OpenXR-Eye-Trackers", "ETVRTracker")
+                                   .value_or(false)) {
+                        // Configuration requested ETVR eye tracking.
+                        m_tracker = createETVREyeTracker();
+                    } else if (utilities::RegGetDword(
                                    HKEY_LOCAL_MACHINE, "SOFTWARE\\OpenXR-Eye-Trackers", "SimulateTracker")
                                    .value_or(false)) {
                         // Configuration requested the mouse simulated eye tracking.
